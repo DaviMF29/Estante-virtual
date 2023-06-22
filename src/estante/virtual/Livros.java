@@ -1,26 +1,23 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
-package estante.virtual;
-
+import estante.virtual.Avaliacao;
 import java.util.ArrayList;
 import java.util.Scanner;
 
-
-/**
- *
- * @author Miguel
- */
 public class Livros {
+    
     
     Avaliacao avaliacao;
     private String titulo;
     private String autor;
     private String genero;
+    double media = 0;
     
+    
+    private ArrayList<Integer> estrelas = new ArrayList<Integer>();
     private ArrayList<Avaliacao> avaliacoes = new ArrayList<Avaliacao>();
 
+    
+    
+    
     public Livros(String titulo, String autor, String genero ) {
         this.titulo = titulo;
         this.autor = autor;
@@ -34,7 +31,14 @@ public class Livros {
     }
 
    
-
+    public double mediaAvaliacao(){
+        double mediaTotal = 0;
+        for(int i = 0; i <avaliacoes.size();i++){
+            media =+ estrelas.get(i); 
+            mediaTotal = media/avaliacoes.size();
+        }
+        return mediaTotal;
+    }
 
     public void adicionarAvaliacao(Avaliacao avaliacao){
         avaliacoes.add(avaliacao);
@@ -72,6 +76,7 @@ public class Livros {
             avaliacoes.get(i).setTexto(txt);
         }
     }
+    
 
     @Override
     public String toString() {
@@ -81,6 +86,38 @@ public class Livros {
     public String getTitulo() {
         return titulo;
     }
+
+    public ArrayList<Integer> getEstrelas() {
+        return estrelas;
+    }
+
+    public void setEstrelas(int estrelas) {
+        this.estrelas.add(estrelas);
+        calcularMediaNotas();
+    }
+
+    public String getAutor() {
+        return autor;
+    }
+
+    public String getGenero() {
+        return genero;
+    }
+    
+    public void calcularMediaNotas(){
+        int soma = 0;
+        for (int numero : estrelas) {
+            soma += numero;
+        }
+        this.media = (double) soma/estrelas.size();
+        System.out.println("Nova media: " +media);
+    }
+    
+
+    public double getMedia() {
+        return media;
+    }
+    
     
     
 }

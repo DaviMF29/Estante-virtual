@@ -1,19 +1,12 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
-package estante.virtual;
+
+import estante.virtual.Avaliacao;
 
 import java.util.ArrayList;
 import java.util.Scanner;
 
-/**
- *
- * @author Miguel
- */
 public class Leitor {
 
-    gerenciadorDeLivros gerenciador;
+    gerenciadorDeLivros gerenciador = new gerenciadorDeLivros();
     Livros livro;
     private String nome;
     private int id;
@@ -24,76 +17,78 @@ public class Leitor {
     ArrayList<Livros> livrosLidos;
     ArrayList<Livros> listaDeDesejo;
     ArrayList<Leitor> amigos;
+    ArrayList<Livros> listaLivros;
 
     public Leitor(String nome, int id, String email, int idade) {
         this.nome = nome;
         this.id = id;
         this.email = email;
         this.idade = idade;
+        this.livrosLidos = new ArrayList<>();
+        this.listaDeDesejo = new ArrayList<>();
+        this.amigos = new ArrayList<>();
     }
 
     public void adicionarLivroLido() {
-        ArrayList<Livros> listaLivros = gerenciadorDeLivros.getInstancia().getLivros();
-
-        for (int i = 0; i < listaLivros.size(); i++) {
-            System.out.println("\n" + (i+1) + " - " + listaLivros.get(i+1).getTitulo());
-        }
+        gerenciadorDeLivros gerente = gerenciadorDeLivros.getInstancia();
+        //ArrayList<Livros> listaLivros = gerente.getLivros();
+        System.out.println("--"+this.nome +" selecione um livro para adicionar à lista:");
+        gerente.listarLivros(); 
+       
         Scanner input = new Scanner(System.in);
         int escolha = input.nextInt();
         if (escolha >= 1 && escolha <= listaLivros.size()) {
-            livrosLidos.add(listaLivros.get(escolha - 1));
+            this.livrosLidos.add(listaLivros.get(escolha - 1));
+            System.out.println("Livro " + listaLivros.get(escolha - 1).getTitulo() + " adicionado à lista");
         } else {
             System.out.println("Opção inválida. Livro não encontrado.");
             
         }
-
     }
 
     public void adicionarLivroDesejado() {
-        ArrayList<Livros> listaLivros = gerenciadorDeLivros.getInstancia().getLivros();
-
-        for (int i = 0; i < listaLivros.size(); i++) {
-            System.out.println("\n" + (i+1) + " - " + listaLivros.get(i).getTitulo());
-        }
+        gerenciadorDeLivros gerente = gerenciadorDeLivros.getInstancia();
+        ArrayList<Livros> listaLivros = gerente.getLivros();
+        System.out.println("-- Selecione um livro para adicionar à lista:");
+        gerente.listarLivros();
+        
         Scanner input = new Scanner(System.in);
         int escolha = input.nextInt();
         if (escolha >= 1 && escolha <= listaLivros.size()) {
-            listaDeDesejo.add(listaLivros.get(escolha - 1));
+            this.listaDeDesejo.add(listaLivros.get(escolha - 1));
+            System.out.println("Livro " + listaLivros.get(escolha - 1).getTitulo() + " adicionado à lista");
         } else {
             System.out.println("Opção inválida. Livro não encontrado.");
             
         }
+        input.close();
     }
 
     public void listarLivrosLidos() {
+        System.out.println("Livros lidos de " + nome + ":");
         for (int i = 0; i < livrosLidos.size(); i++) {
-            System.out.println(livrosLidos.get(i));
+            System.out.println((i+1)+"-"+livrosLidos.get(i));
         }
     }
 
-    public void adicionarEstrela(Livros livro) {
+    public void adicionarEstrela(){
+        listarLivrosLidos();
+        System.out.println("Qual livro quer avaliar?");
         Scanner input = new Scanner(System.in);
-        System.out.println("Quanto você gostou do livro? De 0-5.");
-        int numero = input.nextInt();
-        Avaliacao avaliacao = new Avaliacao();
-        if (numero <= 5 && numero >= 0) {
-            avaliacao.setNumero(numero);
-        } else {
-            System.out.println("Apenas avaliações entre 0 e 5.");
-        }
-        input.close();
-
+        int posicao = input.nextInt();
+        System.out.println("Em quantas estrelas vc avalia?");
+        int estrelas = input.nextInt();
+        livrosLidos.get(posicao-1).setEstrelas(estrelas);
     }
-
+    
     public void adicionarAvaliacao(Livros livro) {
         Scanner input = new Scanner(System.in);
         System.out.println("Diga o que vc achou do livro: ");
         Avaliacao avaliacao = new Avaliacao();
         String texto = input.nextLine();
         avaliacao.setTexto(texto);
-        adicionarEstrela(livro);
+        adicionarEstrela();
         livro.adicionarAvaliacao(avaliacao);
-        input.close();
     }
 
     public void adicionarAmigo(Leitor leitor) {
@@ -112,14 +107,18 @@ public class Leitor {
             amigos.remove(posicao - 1);
             System.out.println("Usuário removido da lista de amigos");
         }
-        input.close();
     }
 
     public void listarAmigos() {
         System.out.println("Sua lista de amigos:");
-        for (int i = 0; i < amigos.size(); i++) {
-            System.out.println((i + 1) + "- " + amigos.toString());
+        for(int i=0;i<amigos.size();i++){
+           this.amigos.get(i).toString(); 
         }
+        
+    }
+    
+    public void tamanhoAmigo(){
+        System.out.println(amigos.size());
     }
 
     public String getNome() {
@@ -139,5 +138,7 @@ public class Leitor {
     public String toString() {
         return "\nNome:" + nome + "\nID:" + id + "\nIdade:" + idade + "\n";
     }
+    
+    
 
 }

@@ -10,11 +10,11 @@ package estante.virtual;
  */
 public class Avaliacao {
     private String texto = "";
-    private int numero = 0;
+    private int estrelas = 0;
 
-    public Avaliacao(String texto, int numero) {
+    public Avaliacao(String texto, int estrelas) {
         this.texto = texto;
-        this.numero = numero;
+        this.estrelas = estrelas;
     }
 
     public Avaliacao() {
@@ -27,7 +27,7 @@ public class Avaliacao {
     }
 
     public void setNumero(int numero) {
-        this.numero = numero;
+        this.estrelas = numero;
     }
 
     public String getTexto() {
@@ -35,12 +35,12 @@ public class Avaliacao {
     }
 
     public int getNumero() {
-        return numero;
+        return estrelas;
     }
 
     @Override
     public String toString() {
-        return "Discrição: " +texto + "\nEstrelas:" + numero;
+        return "Discrição: " +texto + "\nEstrelas:" + estrelas;
     }
     
     
